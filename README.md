@@ -1,4 +1,3 @@
-
 # Supporter
 
 <div align="center">
@@ -8,61 +7,65 @@
 </div>
 
 # bacen-simulator
-BacenSimulator is a docker image to simulate bacen, an official Brazilian payment infrastructure.
 
-# Api References
-To read all the api files, or see the flux in images, please, go to [docs.](DOC.md)
+A local, Docker-friendly simulator of BACEN's Pix infrastructure — both **DICT** (*Diretório de Identificadores de Contas Transacionais*, the key directory) and **SPI** (*Sistema de Pagamentos Instantâneos*, the settlement rail) — so PSP (*Prestador de Serviço de Pagamento*) developers can build and test integrations without access to BCB homologation.
 
-# Stack
-- [Fastify](https://fastify.dev/)
-- [Fast XML parser](https://www.npmjs.com/package/fast-xml-parser)
-- [Sqlite3](https://www.npmjs.com/package/sqlite3)
-- [Commitizen](https://github.com/commitizen/cz-cli)
-- [Typescript](https://www.typescriptlang.org/download)
-- [Zod (Data Validation)](https://zod.dev/)
-- [TurboRepo](https://turbo.build/)
+This is a **maintained fork** of the original at [github.com/eletroswing/bacen-simulator](https://github.com/eletroswing/bacen-simulator). Old issues there remain useful as historical context.
 
-# The communication itself
-All messages exchanged in the system follow the standards established in the documentation, therefore, XML (*extensible markup language*) will be used in the body of the messages.
+## Why
 
-An example message is shown in the [*Catálogo de serviços do SFN volume 3*](https://www.bcb.gov.br/content/estabilidadefinanceira/cedsfn/Catalogos/Catalogo_de_Servicos_do_SFN_Volume_III_Versao_507.pdf), page 11:
-```xml
-<?xml version="1.0"?>
-<DOC xmlns=”http://www.bcb.gov.br/XXX/YYYYYYY.xsd”>
- <BCMSG>
- . . . control
- </BCMSG>
- <SISMSG>
- . . . system
- </SISMSG>
- <USERMSG>
- . . . user
- </USERMSG>
-</DOC>
+There is **no public, always-on BCB sandbox**. Joining the real homologation regime (*IN BCB 508/2024*) takes roughly 3–4 months and requires ICP-Brasil certificates, RSFN connectivity, and signed echo tests. Teams need something they can run locally to develop against the same XML shapes and flows.
+
+## Implementation status
+
+| Area | Status |
+|---|---|
+| DICT entries (`GET/POST/PUT` + `POST /:key/delete` under `/api/dict/entries`) | ✅ implemented + e2e tested |
+| DICT key check (`POST /api/dict/keys/check`, batch) | ✅ implemented + tested |
+| DICT claims (`/api/dict/claims...`) | 🚧 route stubs only (no persistence/validation) |
+| DICT refunds / MED (`/api/dict/refunds...`) | 🚧 route stubs only |
+| SPI MQTT connectivity | 🚧 prototype (echo bot) |
+| SPI transaction manager | ✅ modeled + unit tested, ❌ not integrated with MQTT |
+| Swagger / OpenAPI docs | partial (entries + key check only; served at `/docs`) |
+| CI (GitHub Actions) | ❌ none |
+
+See [docs/02-architecture.md](docs/02-architecture.md) for details.
+
+## Quickstart
+
+```sh
+git clone https://github.com/gustav0d/bacen-simulator
+cd bacen-simulator
+npm ci
+npm run migration      # create tables + seed
+npm run dev            # turbo dev across apps
 ```
-Another example of a message is present in the same manual, on page 14:
 
-```xml
-<?xml version="1.0"?>
-<DOC xmlns=”http://www.bcb.gov.br/GEN/GEN0001.xsd”>
- <BCMSG>
- <IdentdEmissor>########</IdentdEmissor>
- <IdentdDestinatario>########</IdentdDestinatario>
- <DomSist>SPB01</DomSist>
- <NUOp>###########################################</NUOp>
- </BCMSG>
- <SISMSG>
- <GEN0001>
- <CodMsg>GEN0001</CodMsg>
- <ISPBEmissor>########</ISPBEmissor>
- <ISPBDestinatario>########</ISPBDestinatario>
- <MsgECO>text with max of 50 characters</MsgECO>
- </GEN0001>
- </SISMSG>
- <USERMSG>
- . . . free area
- </USERMSG>
-</DOC>
-```
-# How do I contribute?
-Please check the contribution docs on [contributing.md](CONTRIBUTING.md).
+- **API (DICT):** http://localhost:8080 — Swagger UI at http://localhost:8080/docs
+- **SPI** needs a broker: `npm run compose:up` (Mosquitto) and an `apps/spi/.env` copied from `.env.example`.
+
+Full setup, including the SPI broker port caveat, is in [docs/03-development.md](docs/03-development.md).
+
+## Documentation
+
+1. [docs/01-bacen-context.md](docs/01-bacen-context.md) — **start here if you're new to Pix.** What BACEN, DICT, SPI, and RSFN are.
+2. [docs/02-architecture.md](docs/02-architecture.md) — monorepo layout, request lifecycle, data model.
+3. [docs/03-development.md](docs/03-development.md) — install, run, test, lint, Docker.
+4. [ROADMAP.md](ROADMAP.md) — direction and planned work.
+5. [CONTRIBUTING.md](CONTRIBUTING.md) — how to contribute.
+
+## Stack
+
+- [Fastify](https://fastify.dev/) 4.26 — HTTP server
+- [TypeScript](https://www.typescriptlang.org/)
+- [Zod](https://zod.dev/) — validation
+- [fast-xml-parser](https://www.npmjs.com/package/fast-xml-parser) — XML request/response bodies
+- [sqlite3](https://www.npmjs.com/package/sqlite3) — local persistence
+- [mqtt](https://www.npmjs.com/package/mqtt) / [Eclipse Mosquitto](https://mosquitto.org/) — SPI prototype transport
+- [Turborepo](https://turbo.build/) — monorepo orchestration
+- [Biome](https://biomejs.dev/) — lint/format
+- [Jest](https://jestjs.io/) — tests
+
+## License
+
+MIT.

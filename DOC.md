@@ -1,21 +1,8 @@
 # Bacen Simulator Documentation
-## References
-- [Message Protocol Vol. III](https://www.bcb.gov.br/content/estabilidadefinanceira/cedsfn/Catalogos/Catalogo_de_Servicos_do_SFN_Volume_III_Versao_507.pdf)
-- [Message Protocol Vol. VI (Pix Mentioned)](https://www.bcb.gov.br/content/estabilidadefinanceira/cedsfn/Catalogos/Catalogo_de_Servicos_do_SFN_Volume_VI_Versao_507.pdf)
-- [PIX Initiation Patterns Handbook](https://www.bcb.gov.br/content/estabilidadefinanceira/pix/Regulamento_Pix/II_ManualdePadroesparaIniciacaodoPix.pdf#page32)
-- [An introductory article to pix](https://medium.com/cwi-software/uma-breve-introdução-ao-pix-1a6c9413f8e4)
-- [Official DICT API](https://www.bcb.gov.br/content/estabilidadefinanceira/pix/API-DICT-2.0.1.html)
 
-## Some images about what we are building
-### SPI Flow
-![spi](/assets/spi.png)
+The documentation has moved to the [`docs/`](docs/) directory. This file is kept so old links still resolve.
 
-### General Flow
-![flux](/assets/flux.png)
-
-## Data Modelling
-### Conceptual Data Model
-![conceptual model](/assets/conceitualBacen.png)
-
-### Logical Data Model
-![logical model](/assets/logicoBacen.png)
+- [README.md](README.md) — project overview and quickstart
+- [docs/01-bacen-context.md](docs/01-bacen-context.md) — BACEN, DICT, SPI, and RSFN explained
+- [docs/02-architecture.md](docs/02-architecture.md) — monorepo layout and request lifecycle
+- [docs/03-development.md](docs/03-development.md) — setup, running, testing, and Docker

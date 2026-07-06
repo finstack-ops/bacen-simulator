@@ -1,65 +1,52 @@
-# FORK
-First of all, fork the project on your github (click on the star 🌟)
+# Contributing
 
-# CLONE
-Before starting, make sure to git clone, you can follow the steps below to create a clone and switch branches:
+Thanks for your interest in `bacen-simulator`. This is a maintained fork of the original at [github.com/eletroswing/bacen-simulator](https://github.com/eletroswing/bacen-simulator).
+
+## Fork, clone, branch
+
+First, fork the project on GitHub (and click the star 🌟 if you like it). Then:
 
 ```sh
-git clone https://github.com/eletroswing/bacen-simulator BacenSimulator
+git clone https://github.com/gustav0d/bacen-simulator BacenSimulator
 cd BacenSimulator
 git checkout -b your-branch-name
 ```
 
-# The dependencies
-There are two ways you can proceed, use:
-```sh
-npm i
-```
-to install the updated modules, or:
+> If you cloned the upstream `eletroswing/bacen-simulator`, add your fork as a remote and push there.
+
+## Setup
+
+For the full setup — prerequisites, install, migrations, running the API and SPI, the Mosquitto broker, tests, lint, and Docker — see **[docs/03-development.md](docs/03-development.md)**. The short version:
+
 ```sh
 npm ci
-```
-to install from package-lock!
-
-# The migrations
-To run the migrations there are a few commands before starting using. They are:
-```sh
-npm run migration:run
-```
-To create tables, and: 
-```sh
-npm run migration:seed
-```
-To insert some testing values on db. To run both of them at the same time, run:
-```sh 
-npm run migration
+npm run migration        # create tables + seed
+npm run dev              # turbo dev across apps
 ```
 
-# Running the project
-We use turbo to manage all apps.
-To start the project, you can run on your terminal:
-```sh
-npm run start
-```
-Or, if you are developing, run:
-```sh
-npm run dev
-```
+The SPI app additionally needs a running Mosquitto broker (`npm run compose:up`) and an `apps/spi/.env` file — see the development guide for the port caveat.
 
-# Tests
-We provide a bunch of tests E2E to our systems, aiming on the developer experience. The developer can run all tests when needed(developing the repo, or not):
+## Tests
+
+We provide end-to-end and unit tests so you can verify your changes:
+
 ```sh
 npm run test
-```
-Or:
-```sh
 npm run test:watch
 ```
 
-# Making the commit
-To avoid straying too far from the commit structure, when you finish your changes, use the command to add (`git add`) followed by (remember to run the installation of dependencies):
+## Making the commit
+
+This repo uses [Commitizen](https://github.com/commitizen/cz-cli) with conventional commits. After `git add`-ing your changes, run:
 
 ```sh
 npm run commit
 ```
-Just follow commitzen's steps to make your message look beautiful. And then, continue with the push to your fork branch!
+
+Follow the prompts to build a conventional-commit message, then push to your fork and open a pull request against `gustav0d/bacen-simulator`.
+
+## Where to find work
+
+- Check [ROADMAP.md](ROADMAP.md) for the project's direction and planned work.
+- Browse [GitHub issues](https://github.com/gustav0d/bacen-simulator/issues) for open tasks.
+- Historical context and older discussions live on the upstream repo: [eletroswing/bacen-simulator/issues](https://github.com/eletroswing/bacen-simulator/issues).
