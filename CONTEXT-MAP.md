@@ -4,7 +4,7 @@ This is a multi-context repo (Turborepo monorepo). Each context has its own `CON
 
 | Context | Path | CONTEXT.md | Description |
 | --- | --- | --- | --- |
-| API | `apps/api` | not yet written | DICT-facing HTTP API |
-| SPI | `apps/spi` | not yet written | SPI transaction manager service |
+| API | `apps/api` | [`apps/api/CONTEXT.md`](apps/api/CONTEXT.md) | DICT-facing HTTP API |
+| SPI | `apps/spi` | [`apps/spi/CONTEXT.md`](apps/spi/CONTEXT.md) | SPI transaction manager service |
 
 `packages/infra` and `packages/docker` are shared infrastructure, not bounded contexts — no `CONTEXT.md` expected there.
