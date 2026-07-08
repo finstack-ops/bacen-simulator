@@ -22,15 +22,6 @@ The plan below is grounded in three things: the current state of the code in thi
 - **Every feature lands with automated tests and OpenAPI docs.**
 - **Keep the simulator runnable with one command** (`docker compose`) on a current Node LTS.
 
-## Tooling decisions (decided)
-
-These are settled direction, not open questions. They override any older wording elsewhere in the docs. None are implemented yet (no `package.json`/code changes have landed).
-
-- **Commitizen — REMOVED from the plan.** Commits are authored by AI agents writing [Conventional Commits](https://www.conventionalcommits.org/) directly, so no interactive commit-prompt tooling is needed. The `commitizen` / `cz-cli` dependency and the `commit` script (`cz`) are dropped.
-- **Husky — ADD, with exactly two hooks.** (a) a hook preventing direct commits to the `main` branch; (b) a `pre-commit` hook that formats all valid staged files with Biome. No other hooks.
-- **Test runner — [Vitest](https://vitest.dev/), replacing Jest.** Jest is the current runner (still in `devDependencies` and the `test` / `test:watch` scripts today); Vitest is the decided target.
-- **Database — [Turso](https://github.com/tursodatabase/turso) (libSQL), replacing the raw `sqlite3` driver.** The current code uses the `sqlite3` package with hand-rolled promisified helpers (`packages/infra/database.ts`); Turso is the decided target.
-
 ## Phases
 
 ### Phase 0 — Platform modernization & engineering conventions (PRIORITY)
@@ -39,10 +30,10 @@ These are settled direction, not open questions. They override any older wording
 
 - [ ] Upgrade to a current Node.js LTS (22.x or 24.x): bump Dockerfile base image, add `.nvmrc`, add `engines` to all package.json files, align `@types/node`.
 - [ ] Standardize Node.js conventions across the monorepo: modern `tsconfig` targets (es2022+), evaluate ESM migration, replace `ts-node`/`ts-node-dev` with `tsx` or native `node --watch` + build step, consistent per-workspace scripts.
-- [ ] Upgrade toolchain: Turborepo v2, Biome (latest), TypeScript (latest), Fastify v5, Zod v4, fast-xml-parser latest. _(DB driver and test runner are decided separately — see "Tooling decisions" above.)_
-- [ ] **[Decided]** Migrate the test runner from Jest to [Vitest](https://vitest.dev/) (see "Tooling decisions"). Update `test` / `test:watch` scripts and CI across workspaces.
+- [ ] Upgrade toolchain: Turborepo v2, Biome (latest), TypeScript (latest), Fastify v5, Zod v4, fast-xml-parser latest.
+- [ ] **[Decided]** Migrate the test runner from Jest to [Vitest](https://vitest.dev/); update `test` / `test:watch` scripts and CI across workspaces.
 - [ ] **[Decided]** Add [Husky](https://typicode.github.io/husky/) with exactly two hooks: (a) block direct commits to `main`; (b) `pre-commit` formats all valid staged files with Biome.
-- [ ] **[Decided]** Remove Commitizen (`cz-cli` / the `commit` script) — commits are authored by AI agents writing Conventional Commits directly.
+- [ ] **[Decided]** Remove Commitizen (`cz-cli` / the `commit` script) — commits are authored as Conventional Commits directly.
 - [ ] **[Decided]** Migrate persistence from the raw `sqlite3` driver to [Turso](https://github.com/tursodatabase/turso) (libSQL), replacing `packages/infra/database.ts` while keeping the same `tb_*` schema.
 - [ ] Standardize AI engineering conventions: add agent context files (`CLAUDE.md` / `AGENTS.md`) describing architecture, commands, and conventions; keep `docs/` structured so coding agents can navigate; document conventions for schema-first, test-first changes.
 - [ ] GitHub Actions CI ([upstream #67](https://github.com/eletroswing/bacen-simulator/issues/67)): lint, type-check, test, build on PRs; Docker image build on `main`.

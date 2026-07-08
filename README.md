@@ -31,7 +31,7 @@ pnpm run dev            # turbo dev across apps
 - [docs/02-architecture.md](docs/02-architecture.md) — monorepo layout, request lifecycle, data model, implementation status.
 - [docs/03-development.md](docs/03-development.md) — install, run, test, lint, Docker.
 - [docs/04-faq.md](docs/04-faq.md) — frequently asked questions, e.g. why build this vs. BCB homologation / Pix Tester / Woovi sandbox.
-- [ROADMAP.md](ROADMAP.md) — direction, planned work, and tooling decisions.
+- [ROADMAP.md](ROADMAP.md) — direction and planned work.
 - [CONTRIBUTING.md](CONTRIBUTING.md) — how to contribute.
 
 ## Stack
@@ -40,11 +40,11 @@ pnpm run dev            # turbo dev across apps
 - [TypeScript](https://www.typescriptlang.org/)
 - [Zod](https://zod.dev/) — validation
 - [fast-xml-parser](https://www.npmjs.com/package/fast-xml-parser) — XML request/response bodies
-- [sqlite3](https://www.npmjs.com/package/sqlite3) — local persistence _(current; decided migration to [Turso](https://github.com/tursodatabase/turso) — see [ROADMAP.md](ROADMAP.md#tooling-decisions-decided))_
+- [sqlite3](https://www.npmjs.com/package/sqlite3) — local persistence
 - [mqtt](https://www.npmjs.com/package/mqtt) / [Eclipse Mosquitto](https://mosquitto.org/) — SPI prototype transport
 - [Turborepo](https://turbo.build/) — monorepo orchestration
 - [Biome](https://biomejs.dev/) — lint/format
-- [Vitest](https://vitest.dev/) — tests _(decided target; currently [Jest](https://jestjs.io/))_
+- [Jest](https://jestjs.io/) — tests
 
 ## License
 

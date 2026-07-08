@@ -32,8 +32,6 @@ pnpm run migration        # run both, in that order
 
 Note: `migrate.ts` is an idempotent script, **not** a versioned migration system. Re-running it is safe but there is no rollback or migration history.
 
-> The persistence layer currently uses the `sqlite3` driver. The decided target is [Turso](https://github.com/tursodatabase/turso) (libSQL), not yet implemented — see [ROADMAP.md](../ROADMAP.md#tooling-decisions-decided) "Tooling decisions".
-
 ## 4. Running the project
 
 All run scripts go through **Turborepo**:
@@ -83,7 +81,7 @@ The SPI prototype talks to a Mosquitto broker over MQTT.
 
 ## 6. Tests
 
-Tests currently run on **Jest** (decided migration to **Vitest** — see [ROADMAP.md](../ROADMAP.md#tooling-decisions-decided) "Tooling decisions"), one suite per app:
+Tests currently run on **Jest**, one suite per app:
 
 ```sh
 pnpm run test          # turbo run test
@@ -110,14 +108,7 @@ Each app also exposes its own `lint` / `format` scripts if you prefer to run Bio
 
 ## 8. Commit convention
 
-Commits follow [Conventional Commits](https://www.conventionalcommits.org/). **Commitizen is no longer used** — commits are authored (by AI agents or humans) directly as Conventional Commits, with no interactive prompt. (See [ROADMAP.md](../ROADMAP.md#tooling-decisions-decided) "Tooling decisions".)
-
-Git hooks are managed with **Husky** (two hooks only):
-
-- a hook preventing direct commits to the `main` branch;
-- a `pre-commit` hook that formats all valid staged files with Biome.
-
-> Hooks are a decided direction; not yet wired up in this repo.
+Commits follow [Conventional Commits](https://www.conventionalcommits.org/) and are authored directly (no interactive prompt tooling).
 
 ## 9. Docker usage
 
@@ -151,8 +142,8 @@ Run from the repo root unless noted.
 | `pnpm run migration` | Run migrations then seed |
 | `pnpm run dev` | Watch mode across apps (turbo) |
 | `pnpm run start` | Run apps once (turbo) |
-| `pnpm run test` | Run test suites (turbo; currently Jest, migrating to Vitest) |
-| `pnpm run test:watch` | Test watch mode (turbo; currently Jest, migrating to Vitest) |
+| `pnpm run test` | Run test suites (turbo; Jest) |
+| `pnpm run test:watch` | Test watch mode (turbo; Jest) |
 | `pnpm run lint` | Biome lint (turbo) |
 | `pnpm run format` | Biome format / check --apply (turbo) |
 | `pnpm run build` | `tsc -p tsconfig.json` |

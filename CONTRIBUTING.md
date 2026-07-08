@@ -37,13 +37,13 @@ pnpm run test:watch
 
 ## Making the commit
 
-Commits follow [Conventional Commits](https://www.conventionalcommits.org/). **Commitizen is not used** — write the commit message directly (AI agents author commits this way too). Stage with `git add`, then commit:
+Commits follow [Conventional Commits](https://www.conventionalcommits.org/) and are authored directly (no interactive prompt tooling). Stage with `git add`, then commit:
 
 ```sh
 git commit -m "feat(api): add claim lifecycle"
 ```
 
-Git hooks (**Husky**, two only) enforce: no direct commits to `main`, and a `pre-commit` Biome format of staged files. Push to your fork and open a pull request against `finstack-ops/bacen-simulator`. Rationale and status are in [ROADMAP.md](ROADMAP.md#tooling-decisions-decided) "Tooling decisions" _(decided direction; not yet wired up in this repo)_.
+Push to your fork and open a pull request against `finstack-ops/bacen-simulator`. Planned Git hooks (branch protection, Biome pre-commit) are tracked in [ROADMAP.md](ROADMAP.md).
 
 ## Where to find work
 
