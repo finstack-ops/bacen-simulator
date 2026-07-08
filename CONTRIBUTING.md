@@ -37,13 +37,13 @@ npm run test:watch
 
 ## Making the commit
 
-This repo uses [Commitizen](https://github.com/commitizen/cz-cli) with conventional commits. After `git add`-ing your changes, run:
+Commits follow [Conventional Commits](https://www.conventionalcommits.org/). **Commitizen is not used** — write the commit message directly (AI agents author commits this way too). Stage with `git add`, then commit:
 
 ```sh
-npm run commit
+git commit -m "feat(api): add claim lifecycle"
 ```
 
-Follow the prompts to build a conventional-commit message, then push to your fork and open a pull request against `gustav0d/bacen-simulator`.
+Git hooks (**Husky**, two only) enforce: no direct commits to `main`, and a `pre-commit` Biome format of staged files. Push to your fork and open a pull request against `gustav0d/bacen-simulator`. Rationale and status are in [ROADMAP.md](ROADMAP.md#tooling-decisions-decided) "Tooling decisions" _(decided direction; not yet wired up in this repo)_.
 
 ## Where to find work
 

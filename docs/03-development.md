@@ -34,6 +34,8 @@ npm run migration        # run both, in that order
 
 Note: `migrate.ts` is an idempotent script, **not** a versioned migration system. Re-running it is safe but there is no rollback or migration history.
 
+> The persistence layer currently uses the `sqlite3` driver. The decided target is [Turso](https://github.com/tursodatabase/turso) (libSQL), not yet implemented — see [ROADMAP.md](../ROADMAP.md#tooling-decisions-decided) "Tooling decisions".
+
 ## 4. Running the project
 
 All run scripts go through **Turborepo**:
@@ -83,7 +85,7 @@ The SPI prototype talks to a Mosquitto broker over MQTT.
 
 ## 6. Tests
 
-Tests run on **Jest**, one suite per app:
+Tests currently run on **Jest** (decided migration to **Vitest** — see [ROADMAP.md](../ROADMAP.md#tooling-decisions-decided) "Tooling decisions"), one suite per app:
 
 ```sh
 npm run test          # turbo run test
@@ -110,13 +112,14 @@ Each app also exposes its own `lint` / `format` scripts if you prefer to run Bio
 
 ## 8. Commit convention
 
-This repo uses **Commitizen** with conventional commits. Instead of hand-writing a commit message, run:
+Commits follow [Conventional Commits](https://www.conventionalcommits.org/). **Commitizen is no longer used** — commits are authored (by AI agents or humans) directly as Conventional Commits, with no interactive prompt. (See [ROADMAP.md](../ROADMAP.md#tooling-decisions-decided) "Tooling decisions".)
 
-```sh
-npm run commit   # launches commitizen, prompts for type/scope/subject
-```
+Git hooks are managed with **Husky** (two hooks only):
 
-Then `git add`, follow the prompts, and push.
+- a hook preventing direct commits to the `main` branch;
+- a `pre-commit` hook that formats all valid staged files with Biome.
+
+> Hooks are a decided direction; not yet wired up in this repo.
 
 ## 9. Docker usage
 
@@ -150,12 +153,11 @@ Run from the repo root unless noted.
 | `npm run migration` | Run migrations then seed |
 | `npm run dev` | Watch mode across apps (turbo) |
 | `npm run start` | Run apps once (turbo) |
-| `npm run test` | Run Jest suites (turbo) |
-| `npm run test:watch` | Jest watch mode (turbo) |
+| `npm run test` | Run test suites (turbo; currently Jest, migrating to Vitest) |
+| `npm run test:watch` | Test watch mode (turbo; currently Jest, migrating to Vitest) |
 | `npm run lint` | Biome lint (turbo) |
 | `npm run format` | Biome format / check --apply (turbo) |
 | `npm run build` | `tsc -p tsconfig.json` |
-| `npm run commit` | Commitizen conventional-commit prompt |
 | `npm run compose:up` | Start the Mosquitto broker (`packages/docker`) |
 | `npm run compose:down` | Stop the broker |
 

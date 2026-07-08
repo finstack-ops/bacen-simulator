@@ -62,7 +62,7 @@ Swagger UI is served at `/docs`. The spec is assembled by `swagger-jsdoc` from `
 
 ### Tests
 
-The API is covered by **Jest** end-to-end tests under `apps/api/tests/e2e/DICT`. They use Fastify's `inject` to drive the app in-process against a mocked database layer. Claims and refunds have no tests yet (they are stubs).
+The API is covered by **Jest** end-to-end tests under `apps/api/tests/e2e/DICT`. They use Fastify's `inject` to drive the app in-process against a mocked database layer. Claims and refunds have no tests yet (they are stubs). _(Decided migration from Jest to **Vitest** — see [ROADMAP.md](../ROADMAP.md#tooling-decisions-decided) "Tooling decisions".)_
 
 ## 3. `apps/spi` — the SPI prototype
 
@@ -82,6 +82,7 @@ The `TransactionManager` is **unit-tested** (`apps/spi/tests/unit/transactionMan
 
 - **Engine:** SQLite, via the `sqlite3` npm package, stored as a single file at `packages/infra/database.sqlite`.
 - **Helpers:** `database.ts` adds promisified wrappers (`get_sync`, `run_sync`, `get_multiple_sync`, `exec_sync`) on top of the callback-based `sqlite3` API.
+- **Decided target:** migrate from `sqlite3` to [Turso](https://github.com/tursodatabase/turso) (libSQL), replacing `packages/infra/database.ts`. Not started — see [ROADMAP.md](../ROADMAP.md#tooling-decisions-decided) "Tooling decisions".
 - **Logger:** a minimal `logger.ts`.
 
 ### Tables
