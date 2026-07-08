@@ -3,7 +3,7 @@ import { XMLParser } from 'fast-xml-parser';
 
 import database from '@repo/infra/database';
 import BuildServer from '@api/buildServer';
-import { type FastifyInstance } from 'fastify';
+import type { FastifyInstance, LightMyRequestResponse } from 'fastify';
 
 let Server: FastifyInstance | undefined = undefined;
 
@@ -24,7 +24,7 @@ describe('Testing the "entries" update path', () => {
     test('Update passing a key that doesnt exists', async () => {
         const key = crypto.randomUUID();
 
-        const fetchedData: any = await new Promise((resolve, reject) => Server?.inject(
+        const fetchedData: LightMyRequestResponse = await new Promise<LightMyRequestResponse>((resolve, reject) => Server?.inject(
             {
                 method: 'PUT',
                 url: `api/dict/entries/${key}`,
@@ -55,7 +55,7 @@ describe('Testing the "entries" update path', () => {
                     return reject(err)
                 }
 
-                return resolve(res)
+                return resolve(res as LightMyRequestResponse)
             }
         ));
 
@@ -91,7 +91,7 @@ describe('Testing the "entries" update path', () => {
         mockedDb.run_sync = jest.fn().mockResolvedValue(undefined)
         mockedDb.exec_sync = jest.fn().mockResolvedValue(undefined)
 
-        const fetchedData: any = await new Promise((resolve, reject) => Server?.inject(
+        const fetchedData: LightMyRequestResponse = await new Promise<LightMyRequestResponse>((resolve, reject) => Server?.inject(
             {
                 method: 'PUT',
                 url: `api/dict/entries/${key}`,
@@ -122,7 +122,7 @@ describe('Testing the "entries" update path', () => {
                     return reject(err)
                 }
 
-                return resolve(res)
+                return resolve(res as LightMyRequestResponse)
             }
         ));
 

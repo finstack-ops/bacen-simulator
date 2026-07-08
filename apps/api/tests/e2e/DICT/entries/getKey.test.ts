@@ -3,7 +3,7 @@ import { XMLParser } from 'fast-xml-parser';
 
 import database from '@repo/infra/database';
 import BuildServer from '@api/buildServer';
-import { type FastifyInstance } from 'fastify';
+import type { FastifyInstance, LightMyRequestResponse } from 'fastify';
 
 let Server: FastifyInstance | undefined = undefined;
 
@@ -22,7 +22,7 @@ const mockedDb = database as jest.Mocked<typeof database>;
 
 describe('Testing the "entries" get path', () => {
 	test('Check key that dont exists', async () => {
-		const fetchedData: any = await new Promise((resolve, reject) => Server?.inject(
+		const fetchedData: LightMyRequestResponse = await new Promise<LightMyRequestResponse>((resolve, reject) => Server?.inject(
 			{
 				method: 'GET',
 				url: `api/dict/entries/${crypto.randomUUID()}`,
@@ -32,7 +32,7 @@ describe('Testing the "entries" get path', () => {
 					return reject(err)
 				}
 
-				return resolve(res)
+				return resolve(res as LightMyRequestResponse)
 			}
 		));
 
@@ -86,7 +86,7 @@ describe('Testing the "entries" get path', () => {
 				tradeName: 'null'
 			});
 
-		const fetchedData: any = await new Promise((resolve, reject) => Server?.inject(
+		const fetchedData: LightMyRequestResponse = await new Promise<LightMyRequestResponse>((resolve, reject) => Server?.inject(
 			{
 				method: 'GET',
 				url: `api/dict/entries/${key}`,
@@ -96,7 +96,7 @@ describe('Testing the "entries" get path', () => {
 					return reject(err)
 				}
 
-				return resolve(res)
+				return resolve(res as LightMyRequestResponse)
 			}
 		));
 

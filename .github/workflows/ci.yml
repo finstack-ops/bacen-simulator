@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  ci:
+    name: Lint, type-check, test, build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # pnpm/action-setup must run before setup-node so the pnpm
+      # binary is on PATH for setup-node's cache detection. The
+      # version is auto-detected from the `packageManager` field in
+      # package.json.
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm run lint
+
+      # No dedicated type-check script exists in any workspace; the
+      # root tsconfig.json (noEmit: true) already covers apps/api,
+      # apps/spi, and packages/infra via path aliases, so it's run
+      # directly here instead of inventing a new package.json script.
+      - name: Type check
+        run: pnpm exec tsc -p tsconfig.json --noEmit
+
+      - name: Test
+        run: pnpm run test
+
+      - name: Build
+        run: pnpm run build

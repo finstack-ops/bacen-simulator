@@ -1,65 +1,52 @@
-# FORK
-First of all, fork the project on your github (click on the star 🌟)
+# Contributing
 
-# CLONE
-Before starting, make sure to git clone, you can follow the steps below to create a clone and switch branches:
+Thanks for your interest in `bacen-simulator`. This is a maintained fork of the original at [github.com/eletroswing/bacen-simulator](https://github.com/eletroswing/bacen-simulator).
+
+## Fork, clone, branch
+
+First, fork the project on GitHub (and click the star 🌟 if you like it). Then:
 
 ```sh
-git clone https://github.com/eletroswing/bacen-simulator BacenSimulator
+git clone https://github.com/finstack-ops/bacen-simulator BacenSimulator
 cd BacenSimulator
 git checkout -b your-branch-name
 ```
 
-# The dependencies
-There are two ways you can proceed, use:
-```sh
-npm i
-```
-to install the updated modules, or:
-```sh
-npm ci
-```
-to install from package-lock!
+> If you cloned the upstream `eletroswing/bacen-simulator`, add your fork as a remote and push there.
 
-# The migrations
-To run the migrations there are a few commands before starting using. They are:
-```sh
-npm run migration:run
-```
-To create tables, and: 
-```sh
-npm run migration:seed
-```
-To insert some testing values on db. To run both of them at the same time, run:
-```sh 
-npm run migration
-```
+## Setup
 
-# Running the project
-We use turbo to manage all apps.
-To start the project, you can run on your terminal:
-```sh
-npm run start
-```
-Or, if you are developing, run:
-```sh
-npm run dev
-```
-
-# Tests
-We provide a bunch of tests E2E to our systems, aiming on the developer experience. The developer can run all tests when needed(developing the repo, or not):
-```sh
-npm run test
-```
-Or:
-```sh
-npm run test:watch
-```
-
-# Making the commit
-To avoid straying too far from the commit structure, when you finish your changes, use the command to add (`git add`) followed by (remember to run the installation of dependencies):
+For the full setup — prerequisites, install, migrations, running the API and SPI, the Mosquitto broker, tests, lint, and Docker — see **[docs/03-development.md](docs/03-development.md)**. The short version:
 
 ```sh
-npm run commit
+pnpm install
+pnpm run migration        # create tables + seed
+pnpm run dev              # turbo dev across apps
 ```
-Just follow commitzen's steps to make your message look beautiful. And then, continue with the push to your fork branch!
+
+The SPI app additionally needs a running Mosquitto broker (`pnpm run compose:up`) and an `apps/spi/.env` file — see the development guide for the port caveat.
+
+## Tests
+
+We provide end-to-end and unit tests so you can verify your changes:
+
+```sh
+pnpm run test
+pnpm run test:watch
+```
+
+## Making the commit
+
+Commits follow [Conventional Commits](https://www.conventionalcommits.org/) and are authored directly (no interactive prompt tooling). Stage with `git add`, then commit:
+
+```sh
+git commit -m "feat(api): add claim lifecycle"
+```
+
+Push to your fork and open a pull request against `finstack-ops/bacen-simulator`. Planned Git hooks (branch protection, Biome pre-commit) are tracked in [ROADMAP.md](ROADMAP.md).
+
+## Where to find work
+
+- Check [ROADMAP.md](ROADMAP.md) for the project's direction and planned work.
+- Browse [GitHub issues](https://github.com/finstack-ops/bacen-simulator/issues) for open tasks.
+- Historical context and older discussions live on the upstream repo: [eletroswing/bacen-simulator/issues](https://github.com/eletroswing/bacen-simulator/issues).

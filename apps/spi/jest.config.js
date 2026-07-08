@@ -3,8 +3,8 @@ module.exports = {
 	testEnvironment: 'node',
 	fakeTimers: { enableGlobally: true },
 	moduleNameMapper: {
-		"^@spi/(.*)$": "<rootDir>/$1",
-		"^@repo/infra/(.*)$": "<rootDir>/../../packages/infra/$1",
+		'^@spi/(.*)$': '<rootDir>/$1',
+		'^@repo/infra/(.*)$': '<rootDir>/../../packages/infra/$1',
 	},
 	testMatch: ['**/*.test.ts'],
 };

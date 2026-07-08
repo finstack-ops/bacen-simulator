@@ -1,4 +1,3 @@
-
 # Supporter
 
 <div align="center">
@@ -8,61 +7,45 @@
 </div>
 
 # bacen-simulator
-BacenSimulator is a docker image to simulate bacen, an official Brazilian payment infrastructure.
 
-# Api References
-To read all the api files, or see the flux in images, please, go to [docs.](DOC.md)
+A local, Docker-friendly simulator of BACEN's Pix infrastructure — **DICT** (the key directory) and **SPI** (the settlement rail) — so PSP developers can build and test integrations without access to BCB homologation.
 
-# Stack
-- [Fastify](https://fastify.dev/)
-- [Fast XML parser](https://www.npmjs.com/package/fast-xml-parser)
-- [Sqlite3](https://www.npmjs.com/package/sqlite3)
-- [Commitizen](https://github.com/commitizen/cz-cli)
-- [Typescript](https://www.typescriptlang.org/download)
-- [Zod (Data Validation)](https://zod.dev/)
-- [TurboRepo](https://turbo.build/)
+This is a **maintained fork** of [eletroswing/bacen-simulator](https://github.com/eletroswing/bacen-simulator).
 
-# The communication itself
-All messages exchanged in the system follow the standards established in the documentation, therefore, XML (*extensible markup language*) will be used in the body of the messages.
+## Quickstart
 
-An example message is shown in the [*Catálogo de serviços do SFN volume 3*](https://www.bcb.gov.br/content/estabilidadefinanceira/cedsfn/Catalogos/Catalogo_de_Servicos_do_SFN_Volume_III_Versao_507.pdf), page 11:
-```xml
-<?xml version="1.0"?>
-<DOC xmlns=”http://www.bcb.gov.br/XXX/YYYYYYY.xsd”>
- <BCMSG>
- . . . control
- </BCMSG>
- <SISMSG>
- . . . system
- </SISMSG>
- <USERMSG>
- . . . user
- </USERMSG>
-</DOC>
+```sh
+git clone https://github.com/finstack-ops/bacen-simulator
+cd bacen-simulator
+pnpm install          # install all workspaces (writes pnpm-lock.yaml)
+pnpm run migration      # create tables + seed
+pnpm run dev            # turbo dev across apps
 ```
-Another example of a message is present in the same manual, on page 14:
 
-```xml
-<?xml version="1.0"?>
-<DOC xmlns=”http://www.bcb.gov.br/GEN/GEN0001.xsd”>
- <BCMSG>
- <IdentdEmissor>########</IdentdEmissor>
- <IdentdDestinatario>########</IdentdDestinatario>
- <DomSist>SPB01</DomSist>
- <NUOp>###########################################</NUOp>
- </BCMSG>
- <SISMSG>
- <GEN0001>
- <CodMsg>GEN0001</CodMsg>
- <ISPBEmissor>########</ISPBEmissor>
- <ISPBDestinatario>########</ISPBDestinatario>
- <MsgECO>text with max of 50 characters</MsgECO>
- </GEN0001>
- </SISMSG>
- <USERMSG>
- . . . free area
- </USERMSG>
-</DOC>
-```
-# How do I contribute?
-Please check the contribution docs on [contributing.md](CONTRIBUTING.md).
+- **API (DICT):** http://localhost:8080 — Swagger UI at http://localhost:8080/docs
+- **SPI** needs a broker: `pnpm run compose:up` (Mosquitto) and an `apps/spi/.env` copied from `.env.example`.
+
+## Documentation
+
+- [docs/01-bacen-context.md](docs/01-bacen-context.md) — **start here if you're new to Pix.** What BACEN, DICT, SPI, and RSFN are.
+- [docs/02-architecture.md](docs/02-architecture.md) — monorepo layout, request lifecycle, data model, implementation status.
+- [docs/03-development.md](docs/03-development.md) — install, run, test, lint, Docker.
+- [docs/04-faq.md](docs/04-faq.md) — frequently asked questions, e.g. why build this vs. BCB homologation / Pix Tester / Woovi sandbox.
+- [ROADMAP.md](ROADMAP.md) — direction and planned work.
+- [CONTRIBUTING.md](CONTRIBUTING.md) — how to contribute.
+
+## Stack
+
+- [Fastify](https://fastify.dev/) 4.26 — HTTP server
+- [TypeScript](https://www.typescriptlang.org/)
+- [Zod](https://zod.dev/) — validation
+- [fast-xml-parser](https://www.npmjs.com/package/fast-xml-parser) — XML request/response bodies
+- [sqlite3](https://www.npmjs.com/package/sqlite3) — local persistence
+- [mqtt](https://www.npmjs.com/package/mqtt) / [Eclipse Mosquitto](https://mosquitto.org/) — SPI prototype transport
+- [Turborepo](https://turbo.build/) — monorepo orchestration
+- [Biome](https://biomejs.dev/) — lint/format
+- [Jest](https://jestjs.io/) — tests
+
+## License
+
+MIT.

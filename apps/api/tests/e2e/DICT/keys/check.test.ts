@@ -1,6 +1,6 @@
 import { describe, expect, test } from '@jest/globals';
 import BuildServer from '@api/buildServer';
-import { type FastifyInstance } from 'fastify';
+import type { FastifyInstance, LightMyRequestResponse } from 'fastify';
 
 let Server: FastifyInstance | undefined = undefined;
 
@@ -30,7 +30,7 @@ describe('Check Tests on DICT ', () => {
 	test('Check passing a valid body', async () => {
 		const key = '+5500000000000';
 
-		const fetchedData: any = await new Promise((resolve, reject) => Server?.inject(
+		const fetchedData: LightMyRequestResponse = await new Promise<LightMyRequestResponse>((resolve, reject) => Server?.inject(
 			{
 				method: 'POST',
 				url: 'api/dict/keys/check',
@@ -44,7 +44,7 @@ describe('Check Tests on DICT ', () => {
 					return reject(err)
 				}
 
-				return resolve(res)
+				return resolve(res as LightMyRequestResponse)
 			}
 		));
 
@@ -58,7 +58,7 @@ describe('Check Tests on DICT ', () => {
 
 	test('Check passing a valid body and key that dont exists', async () => {
 		const key = crypto.randomUUID();
-		const fetchedData: any = await new Promise((resolve, reject) => Server?.inject(
+		const fetchedData: LightMyRequestResponse = await new Promise<LightMyRequestResponse>((resolve, reject) => Server?.inject(
 			{
 				method: 'POST',
 				url: 'api/dict/keys/check',
@@ -72,7 +72,7 @@ describe('Check Tests on DICT ', () => {
 					return reject(err)
 				}
 
-				return resolve(res)
+				return resolve(res as LightMyRequestResponse)
 			}
 		));
 
@@ -86,7 +86,7 @@ describe('Check Tests on DICT ', () => {
 	test('Check passing a valid body with 2 keys (true and false)', async () => {
 		const key = crypto.randomUUID();
 
-		const fetchedData: any = await new Promise((resolve, reject) => Server?.inject(
+		const fetchedData: LightMyRequestResponse = await new Promise<LightMyRequestResponse>((resolve, reject) => Server?.inject(
 			{
 				method: 'POST',
 				url: 'api/dict/keys/check',
@@ -100,7 +100,7 @@ describe('Check Tests on DICT ', () => {
 					return reject(err)
 				}
 
-				return resolve(res)
+				return resolve(res as LightMyRequestResponse)
 			}
 		));
 

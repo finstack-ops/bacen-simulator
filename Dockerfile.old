@@ -9,10 +9,12 @@ ENV NODE_ENV production
 USER node
 
 COPY package.json .
+COPY pnpm-workspace.yaml .
+COPY pnpm-lock.yaml .
 COPY apps/api/package.json ./apps/api/package.json
 COPY packages/infra/package.json ./packages/infra/package.json
 
-RUN npm install
+RUN corepack enable && pnpm install --frozen-lockfile
 
 EXPOSE 8080
-CMD npm start
+CMD pnpm run start

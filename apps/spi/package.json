@@ -6,7 +6,7 @@
 		"start": "ts-node -r tsconfig-paths/register main.ts",
 		"dev": "ts-node-dev -r tsconfig-paths/register main.ts",
 		"lint": "biome lint .",
-		"format": "biome check . --apply",	
+		"format": "biome check . --apply",
 		"test": "jest",
 		"test:watch": "jest --watch"
 	},
