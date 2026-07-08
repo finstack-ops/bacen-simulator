@@ -30,6 +30,7 @@ pnpm run dev            # turbo dev across apps
 - [docs/01-bacen-context.md](docs/01-bacen-context.md) — **start here if you're new to Pix.** What BACEN, DICT, SPI, and RSFN are.
 - [docs/02-architecture.md](docs/02-architecture.md) — monorepo layout, request lifecycle, data model, implementation status.
 - [docs/03-development.md](docs/03-development.md) — install, run, test, lint, Docker.
+- [docs/04-faq.md](docs/04-faq.md) — frequently asked questions, e.g. why build this vs. BCB homologation / Pix Tester / Woovi sandbox.
 - [ROADMAP.md](ROADMAP.md) — direction, planned work, and tooling decisions.
 - [CONTRIBUTING.md](CONTRIBUTING.md) — how to contribute.
 
