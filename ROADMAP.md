@@ -1,6 +1,6 @@
 # Roadmap
 
-This roadmap describes where [bacen-simulator](https://github.com/gustav0d/bacen-simulator) is headed. It is a maintained fork of the unmaintained [eletroswing/bacen-simulator](https://github.com/eletroswing/bacen-simulator) — a TypeScript monorepo that simulates BACEN's Pix infrastructure (DICT + SPI) for local PSP development.
+This roadmap describes where [bacen-simulator](https://github.com/finstack-ops/bacen-simulator) is headed. It is a maintained fork of the unmaintained [eletroswing/bacen-simulator](https://github.com/eletroswing/bacen-simulator) — a TypeScript monorepo that simulates BACEN's Pix infrastructure (DICT + SPI) for local PSP development.
 
 The plan below is grounded in three things: the current state of the code in this repo, the open issues tracked upstream at <https://github.com/eletroswing/bacen-simulator/issues>, and the July-2026 state of BCB's Pix specifications (DICT API v2, Catálogo de Serviços do SFN Vol. VI, ISO 20022 `pacs`/`admi`/`pibr` messages). It will be revised as specs evolve and as work lands.
 
@@ -85,4 +85,4 @@ Reference: <https://www.bcb.gov.br/content/estabilidadefinanceira/pix/changelog.
 
 ## How to propose changes
 
-Open an issue or a PR on the fork ([`CONTRIBUTING.md`](CONTRIBUTING.md)) — see <https://github.com/gustav0d/bacen-simulator/issues>.
+Open an issue or a PR on the fork ([`CONTRIBUTING.md`](CONTRIBUTING.md)) — see <https://github.com/finstack-ops/bacen-simulator/issues>.

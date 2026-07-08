@@ -7,7 +7,7 @@ Thanks for your interest in `bacen-simulator`. This is a maintained fork of the 
 First, fork the project on GitHub (and click the star 🌟 if you like it). Then:
 
 ```sh
-git clone https://github.com/gustav0d/bacen-simulator BacenSimulator
+git clone https://github.com/finstack-ops/bacen-simulator BacenSimulator
 cd BacenSimulator
 git checkout -b your-branch-name
 ```
@@ -43,10 +43,10 @@ Commits follow [Conventional Commits](https://www.conventionalcommits.org/). **C
 git commit -m "feat(api): add claim lifecycle"
 ```
 
-Git hooks (**Husky**, two only) enforce: no direct commits to `main`, and a `pre-commit` Biome format of staged files. Push to your fork and open a pull request against `gustav0d/bacen-simulator`. Rationale and status are in [ROADMAP.md](ROADMAP.md#tooling-decisions-decided) "Tooling decisions" _(decided direction; not yet wired up in this repo)_.
+Git hooks (**Husky**, two only) enforce: no direct commits to `main`, and a `pre-commit` Biome format of staged files. Push to your fork and open a pull request against `finstack-ops/bacen-simulator`. Rationale and status are in [ROADMAP.md](ROADMAP.md#tooling-decisions-decided) "Tooling decisions" _(decided direction; not yet wired up in this repo)_.
 
 ## Where to find work
 
 - Check [ROADMAP.md](ROADMAP.md) for the project's direction and planned work.
-- Browse [GitHub issues](https://github.com/gustav0d/bacen-simulator/issues) for open tasks.
+- Browse [GitHub issues](https://github.com/finstack-ops/bacen-simulator/issues) for open tasks.
 - Historical context and older discussions live on the upstream repo: [eletroswing/bacen-simulator/issues](https://github.com/eletroswing/bacen-simulator/issues).

@@ -13,7 +13,7 @@ How to get `bacen-simulator` running locally, run tests, and contribute changes.
 Clone and install dependencies:
 
 ```sh
-git clone https://github.com/gustav0d/bacen-simulator
+git clone https://github.com/finstack-ops/bacen-simulator
 cd bacen-simulator
 npm ci      # reproducible install from package-lock.json
 # or

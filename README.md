@@ -15,7 +15,7 @@ This is a **maintained fork** of [eletroswing/bacen-simulator](https://github.co
 ## Quickstart
 
 ```sh
-git clone https://github.com/gustav0d/bacen-simulator
+git clone https://github.com/finstack-ops/bacen-simulator
 cd bacen-simulator
 npm ci
 npm run migration      # create tables + seed

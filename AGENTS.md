@@ -2,7 +2,7 @@
 
 ### Issue tracker
 
-Issues are tracked on GitHub (`gustav0d/bacen-simulator`) via the `gh` CLI. See `docs/agents/issue-tracker.md`.
+Issues are tracked on GitHub (`finstack-ops/bacen-simulator`) via the `gh` CLI. See `docs/agents/issue-tracker.md`.
 
 ### Triage labels
 
