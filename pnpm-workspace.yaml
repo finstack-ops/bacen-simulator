@@ -1,0 +1,10 @@
+packages:
+  - 'apps/*'
+  - 'packages/*'
+
+nodeLinker: hoisted
+
+allowBuilds:
+  '@biomejs/biome': true
+  '@scarf/scarf': false
+  sqlite3: true

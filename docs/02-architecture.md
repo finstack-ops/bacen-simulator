@@ -80,7 +80,7 @@ The `TransactionManager` is **unit-tested** (`apps/spi/tests/unit/transactionMan
 
 ## 4. `packages/infra` — the data layer
 
-- **Engine:** SQLite, via the `sqlite3` npm package, stored as a single file at `packages/infra/database.sqlite`.
+- **Engine:** SQLite, via the `sqlite3` package, stored as a single file at `packages/infra/database.sqlite`.
 - **Helpers:** `database.ts` adds promisified wrappers (`get_sync`, `run_sync`, `get_multiple_sync`, `exec_sync`) on top of the callback-based `sqlite3` API.
 - **Decided target:** migrate from `sqlite3` to [Turso](https://github.com/tursodatabase/turso) (libSQL), replacing `packages/infra/database.ts`. Not started — see [ROADMAP.md](../ROADMAP.md#tooling-decisions-decided) "Tooling decisions".
 - **Logger:** a minimal `logger.ts`.
@@ -111,12 +111,12 @@ There are **no claims or refunds tables yet** — matching the fact that those r
 
 ### Root `Dockerfile` and `compose.yaml`
 
-- The root `Dockerfile` builds the **whole monorepo** on `node:21.7.0-alpine`, runs `npm install`, and starts everything via `npm start` (turbo).
+- The root `Dockerfile` builds the **whole monorepo** on `node:21.7.0-alpine`, enables corepack for pnpm, runs `pnpm install --frozen-lockfile`, and starts everything via `pnpm run start` (turbo).
 - The root `compose.yaml` runs **only the API** service on port 8080.
 
 ### Current gaps
 
-There is **no single compose file** that brings up API + SPI + Mosquitto together — you compose the broker separately and run the apps via turbo. Migrations also **do not run automatically** inside Docker; you must run `npm run migration` against the image/container yourself.
+There is **no single compose file** that brings up API + SPI + Mosquitto together — you compose the broker separately and run the apps via turbo. Migrations also **do not run automatically** inside Docker; you must run `pnpm run migration` against the image/container yourself.
 
 ## 6. Diagrams
 

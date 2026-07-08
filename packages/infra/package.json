@@ -3,7 +3,7 @@
     "version": "0.0.1",
     "description": "BacenSimulator infrastructure responsible to manage databases (migrator and seeder).",
     "scripts": {
-      "migration": "npm run migration:run && npm run migration:seed",
+      "migration": "pnpm run migration:run && pnpm run migration:seed",
       "migration:run": "ts-node -r tsconfig-paths/register migrate.ts",
       "migration:seed": "ts-node -r tsconfig-paths/register seed_database.ts"
     },

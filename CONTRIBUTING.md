@@ -19,20 +19,20 @@ git checkout -b your-branch-name
 For the full setup — prerequisites, install, migrations, running the API and SPI, the Mosquitto broker, tests, lint, and Docker — see **[docs/03-development.md](docs/03-development.md)**. The short version:
 
 ```sh
-npm ci
-npm run migration        # create tables + seed
-npm run dev              # turbo dev across apps
+pnpm install
+pnpm run migration        # create tables + seed
+pnpm run dev              # turbo dev across apps
 ```
 
-The SPI app additionally needs a running Mosquitto broker (`npm run compose:up`) and an `apps/spi/.env` file — see the development guide for the port caveat.
+The SPI app additionally needs a running Mosquitto broker (`pnpm run compose:up`) and an `apps/spi/.env` file — see the development guide for the port caveat.
 
 ## Tests
 
 We provide end-to-end and unit tests so you can verify your changes:
 
 ```sh
-npm run test
-npm run test:watch
+pnpm run test
+pnpm run test:watch
 ```
 
 ## Making the commit

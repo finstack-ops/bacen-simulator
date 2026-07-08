@@ -17,13 +17,13 @@ This is a **maintained fork** of [eletroswing/bacen-simulator](https://github.co
 ```sh
 git clone https://github.com/finstack-ops/bacen-simulator
 cd bacen-simulator
-npm ci
-npm run migration      # create tables + seed
-npm run dev            # turbo dev across apps
+pnpm install          # install all workspaces (writes pnpm-lock.yaml)
+pnpm run migration      # create tables + seed
+pnpm run dev            # turbo dev across apps
 ```
 
 - **API (DICT):** http://localhost:8080 — Swagger UI at http://localhost:8080/docs
-- **SPI** needs a broker: `npm run compose:up` (Mosquitto) and an `apps/spi/.env` copied from `.env.example`.
+- **SPI** needs a broker: `pnpm run compose:up` (Mosquitto) and an `apps/spi/.env` copied from `.env.example`.
 
 ## Documentation
 
