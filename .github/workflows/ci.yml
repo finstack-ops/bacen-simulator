@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  ci:
+    name: Lint, type-check, test, build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      # package-lock.json is currently out of sync with package.json
+      # (npm ci fails), so `npm install` is used until the lock file
+      # is regenerated. Switch back to `npm ci` once it's fixed.
+      - name: Install dependencies
+        run: npm install
+
+      - name: Lint
+        run: npm run lint
+
+      # No dedicated type-check script exists in any workspace; the
+      # root tsconfig.json (noEmit: true) already covers apps/api,
+      # apps/spi, and packages/infra via path aliases, so it's run
+      # directly here instead of inventing a new package.json script.
+      - name: Type check
+        run: npx tsc -p tsconfig.json --noEmit
+
+      - name: Test
+        run: npm run test
+
+      - name: Build
+        run: npm run build
