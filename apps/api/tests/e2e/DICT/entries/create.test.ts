@@ -3,7 +3,7 @@ import { XMLParser } from 'fast-xml-parser';
 
 import database from '@repo/infra/database';
 import BuildServer from '@api/buildServer';
-import { type FastifyInstance } from 'fastify';
+import type { FastifyInstance, LightMyRequestResponse } from 'fastify';
 
 let Server: FastifyInstance | undefined = undefined;
 
@@ -49,10 +49,10 @@ describe('Create Entry Tests on DICT ', () => {
 
 		mockedDb.run_sync = jest.fn().mockResolvedValue(undefined)
 
-		const fetchedData: any = await new Promise((resolve, reject) => Server?.inject(
+		const fetchedData: LightMyRequestResponse = await new Promise<LightMyRequestResponse>((resolve, reject) => Server?.inject(
 			{
 				method: 'POST',
-				url: `api/dict/entries/`,
+				url: 'api/dict/entries/',
 				headers: {
 					'Content-Type': 'application/xml',
 				},
@@ -84,7 +84,7 @@ describe('Create Entry Tests on DICT ', () => {
 					return reject(err)
 				}
 
-				return resolve(res)
+				return resolve(res as LightMyRequestResponse)
 			}
 		));
 
@@ -122,10 +122,10 @@ describe('Create Entry Tests on DICT ', () => {
 
 		mockedDb.run_sync = jest.fn().mockResolvedValue(undefined)
 
-		const fetchedData: any = await new Promise((resolve, reject) => Server?.inject(
+		const fetchedData: LightMyRequestResponse = await new Promise<LightMyRequestResponse>((resolve, reject) => Server?.inject(
 			{
 				method: 'POST',
-				url: `api/dict/entries/`,
+				url: 'api/dict/entries/',
 				headers: {
 					'Content-Type': 'application/xml',
 				},
@@ -157,7 +157,7 @@ describe('Create Entry Tests on DICT ', () => {
 					return reject(err)
 				}
 
-				return resolve(res)
+				return resolve(res as LightMyRequestResponse)
 			}
 		));
 
@@ -194,10 +194,10 @@ describe('Create Entry Tests on DICT ', () => {
 
 		mockedDb.run_sync = jest.fn().mockResolvedValue(undefined)
 
-		const fetchedData: any = await new Promise((resolve, reject) => Server?.inject(
+		const fetchedData: LightMyRequestResponse = await new Promise<LightMyRequestResponse>((resolve, reject) => Server?.inject(
 			{
 				method: 'POST',
-				url: `api/dict/entries/`,
+				url: 'api/dict/entries/',
 				headers: {
 					'Content-Type': 'application/xml',
 				},
@@ -229,7 +229,7 @@ describe('Create Entry Tests on DICT ', () => {
 					return reject(err)
 				}
 
-				return resolve(res)
+				return resolve(res as LightMyRequestResponse)
 			}
 		));
 
@@ -240,17 +240,17 @@ describe('Create Entry Tests on DICT ', () => {
 	});
 
 	test('Create without passing a body', async () => {
-		const fetchedData: any = await new Promise((resolve, reject) => Server?.inject(
+		const fetchedData: LightMyRequestResponse = await new Promise<LightMyRequestResponse>((resolve, reject) => Server?.inject(
 			{
 				method: 'POST',
-				url: `api/dict/entries/`,
+				url: 'api/dict/entries/',
 			},
 			(err, res) => {
 				if (err) {
 					return reject(err)
 				}
 
-				return resolve(res)
+				return resolve(res as LightMyRequestResponse)
 			}
 		));
 
@@ -274,10 +274,10 @@ describe('Create Entry Tests on DICT ', () => {
 	});
 
 	test('Create passing a body with invalid fields when owner is NATURAL_PERSON', async () => {
-		const fetchedData: any = await new Promise((resolve, reject) => Server?.inject(
+		const fetchedData: LightMyRequestResponse = await new Promise<LightMyRequestResponse>((resolve, reject) => Server?.inject(
 			{
 				method: 'POST',
-				url: `api/dict/entries/`,
+				url: 'api/dict/entries/',
 				headers: {
 					'Content-Type': 'application/xml',
 				},
@@ -310,7 +310,7 @@ describe('Create Entry Tests on DICT ', () => {
 					return reject(err)
 				}
 
-				return resolve(res)
+				return resolve(res as LightMyRequestResponse)
 			}
 		));
 
@@ -337,10 +337,10 @@ describe('Create Entry Tests on DICT ', () => {
 	});
 
 	test('Create passing a body with invalid fields when owner is LEGAL_PERSON', async () => {
-		const fetchedData: any = await new Promise((resolve, reject) => Server?.inject(
+		const fetchedData: LightMyRequestResponse = await new Promise<LightMyRequestResponse>((resolve, reject) => Server?.inject(
 			{
 				method: 'POST',
-				url: `api/dict/entries/`,
+				url: 'api/dict/entries/',
 				headers: {
 					'Content-Type': 'application/xml',
 				},
@@ -372,7 +372,7 @@ describe('Create Entry Tests on DICT ', () => {
 					return reject(err)
 				}
 
-				return resolve(res)
+				return resolve(res as LightMyRequestResponse)
 			}
 		));
 		

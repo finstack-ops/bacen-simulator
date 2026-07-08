@@ -3,7 +3,7 @@ import { XMLParser } from 'fast-xml-parser';
 
 import database from '@repo/infra/database';
 import BuildServer from '@api/buildServer';
-import { type FastifyInstance } from 'fastify';
+import type { FastifyInstance, LightMyRequestResponse } from 'fastify';
 
 let Server: FastifyInstance | undefined = undefined;
 
@@ -23,7 +23,7 @@ const mockedDb = database as jest.Mocked<typeof database>;
 describe('Testing the "entries" delete path', () => {
     test('Delete key that dont exists', async () => {
         const key = crypto.randomUUID();
-        const fetchedData: any = await new Promise((resolve, reject) => Server?.inject(
+        const fetchedData: LightMyRequestResponse = await new Promise<LightMyRequestResponse>((resolve, reject) => Server?.inject(
             {
                 method: 'POST',
                 url: `api/dict/entries/${key}/delete`,
@@ -44,7 +44,7 @@ describe('Testing the "entries" delete path', () => {
                     return reject(err)
                 }
 
-                return resolve(res)
+                return resolve(res as LightMyRequestResponse)
             }
         ));
 
@@ -89,7 +89,7 @@ describe('Testing the "entries" delete path', () => {
 			}
 		})
 
-        const fetchedData: any = await new Promise((resolve, reject) => Server?.inject(
+        const fetchedData: LightMyRequestResponse = await new Promise<LightMyRequestResponse>((resolve, reject) => Server?.inject(
             {
                 method: 'POST',
                 url: `api/dict/entries/${key}/delete`,
@@ -110,7 +110,7 @@ describe('Testing the "entries" delete path', () => {
                     return reject(err)
                 }
 
-                return resolve(res)
+                return resolve(res as LightMyRequestResponse)
             }
         ));
 
@@ -122,7 +122,7 @@ describe('Testing the "entries" delete path', () => {
     test('Delete without body', async () => {
         const key = crypto.randomUUID();
 
-        const fetchedData: any = await new Promise((resolve, reject) => Server?.inject(
+        const fetchedData: LightMyRequestResponse = await new Promise<LightMyRequestResponse>((resolve, reject) => Server?.inject(
             {
                 method: 'POST',
                 url: `api/dict/entries/${key}/delete`,
@@ -135,7 +135,7 @@ describe('Testing the "entries" delete path', () => {
                     return reject(err)
                 }
 
-                return resolve(res)
+                return resolve(res as LightMyRequestResponse)
             }
         ));
 
