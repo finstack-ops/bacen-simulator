@@ -18,7 +18,7 @@ Pix is not a single system. It is a set of rules and services built on three pie
 
 The settlement rail operated by BCB. Participants (banks and payment institutions, called **PSPs** — *Prestadores de Serviço de Pagamento*) exchange **ISO 20022 XML messages** to move money in real time, 24/7/365.
 
-In production, SPI messages travel over **RSFN** (*Rede do Sistema Financeiro Nacional*, the dedicated financial network). The primary channel uses **IBM MQ**; a restricted **HTTPS secondary channel** exists as a fallback. Every message is **XMLDSig-signed**, and connections require **mTLS** with **ICP-Brasil** certificates (SPB — *Sistema de Pagamentos Brasileiro* — standard), at TLS 1.2 or higher.
+In production, SPI messages travel over **RSFN** (*Rede do Sistema Financeiro Nacional*, the dedicated financial network). Both channels use **ICOM** (*Interface de Comunicação do SPI*), an HTTPS-based interface — the primary and restricted secondary channels differ by network priority class and port, not by protocol. (IBM MQ is used for other RSFN messaging domains, such as STR, but not for SPI/Pix.) Every message is **XMLDSig-signed**, and connections require **mTLS** with **ICP-Brasil** certificates (SPB — *Sistema de Pagamentos Brasileiro* — standard), at TLS 1.2 or higher.
 
 ### DICT (Diretório de Identificadores de Contas Transacionais)
 
@@ -41,7 +41,7 @@ DICT's full surface is larger than "look up a key". The groups are:
 | Directory | Entries CRUD — create, read, update, delete keys | ✅ yes |
 | Key | `keys/check` — batch validation of key ownership | ✅ yes |
 | Claim | Portability and ownership claims between participants | 🚧 partial (route stubs only) |
-| Reconciliation | CID (*Cadastro de Identificação de Contas*) sync | ❌ no |
+| Reconciliation | CID (*Content Identifier* — a hash-based sync mechanism, VSync) | ❌ no |
 | InfractionReport | Reporting fraud or infractions on a key | ❌ no |
 | Refund (MED) | *Mecanismo Especial de Devolução* — special refund mechanism | 🚧 partial (route stubs only) |
 | Statistics | Aggregated DICT usage data | ❌ no |
@@ -59,7 +59,7 @@ The special refund mechanism used for fraud and error cases. **MED 2.0**, activa
 
 ## 4. SPI in depth
 
-SPI participants exchange ISO 20022 XML messages. The confirmed Pix message set is:
+SPI participants exchange ISO 20022 XML messages. The confirmed Pix message set includes:
 
 | Message | Purpose |
 |---|---|
@@ -68,8 +68,10 @@ SPI participants exchange ISO 20022 XML messages. The confirmed Pix message set 
 | `pacs.004` | Return of funds |
 | `admi.002` | Rejection / system notice |
 | `pibr.001` / `pibr.002` | Echo and connectivity-test messages used in homologation |
+| `camt.055` / `camt.029` | Cancellation request and confirmation (used in MED cancellation handshakes) |
+| `camt.060` / `camt.053` / `camt.054` | Conta PI (settlement account) query and balance/statement responses |
 
-> Note: whether `camt.*` or `pacs.028` messages are part of Pix is **unconfirmed** — this simulator does not model them.
+> Note: `pacs.028` does not appear in the Catálogo de Serviços do SFN and is **not** part of Pix. The `camt.*` messages above **are** confirmed part of the set (per Catálogo Volume VI) but this simulator does not model any of them.
 
 ### Typical payment flow
 
@@ -80,7 +82,7 @@ A payment moves through several message exchanges:
 3. The payee PSP replies with a `pacs.002` status report.
 4. SPI propagates the status back to the payer PSP.
 
-If something goes wrong (fraud, wrong amount), a `pacs.004` return is issued under MED, and an `admi.002` may be sent as a system notice.
+If something goes wrong (fraud, wrong amount), a `pacs.004` return is issued under MED (with return-reason codes such as `FR01` for fraud or `BE08` for operational failure). `admi.002` is a separate, general processing-error/rejection notice — the official MED implementation guide does not tie it to the fraud-return flow specifically.
 
 ### The SFN XML envelope
 
@@ -151,7 +153,7 @@ In short: it is a **fidelity-of-shapes** simulator, not a security or topology r
 
 These changes are context for the simulator's roadmap, not features it implements:
 
-- **Pix Automático** — recurring payments, launched June 16, 2025; mandatory for PSPs that offer transactional accounts.
+- **Pix Automático** — recurring payments; PSPs offering transactional accounts had to make it available to payers starting June 16, 2025. A separate, later mandate required unregulated billers to migrate recurring charges to Pix Automático starting October 13, 2025, with existing contracts required to migrate by January 1, 2026.
 - **Pix por aproximação (NFC)** — tap-to-pay, live since February 2025. *Instrução Normativa* 746/2026 removed the per-transaction value cap, with full rollout by October 1, 2026.
 - **MED 2.0** — the upgraded special refund mechanism, activated May 11, 2026, which traces fraud funds across multiple hops.
 - **Pix Parcelado** (installment payments) — BCB dropped its plans to regulate it in December 2025.
@@ -160,7 +162,7 @@ These changes are context for the simulator's roadmap, not features it implement
 
 ## 7. Official references
 
-- [DICT API v2 spec](https://www.bcb.gov.br/content/estabilidadefinanceira/pix/API-DICT-2.0.1.html)
+- [DICT API changelog (current version 2.12.0 as of 2026-06-29)](https://www.bcb.gov.br/content/estabilidadefinanceira/pix/changelog.html)
 - [DICT API FAQ (v2)](https://www.bcb.gov.br/content/estabilidadefinanceira/pix/duvidas_comuns_api_v2.html)
 - [Frozen OpenAPI (historical, 1.8.0) — bacen/pix-dict-api](https://github.com/bacen/pix-dict-api)
 - [Catálogo de Serviços do SFN Volume VI (Pagamentos Instantâneos), v5.11](https://www.bcb.gov.br/content/estabilidadefinanceira/cedsfn/Catalogos/Catalogo_de_Servicos_do_SFN_Volume_VI_Versao_511.pdf)
@@ -170,6 +172,8 @@ These changes are context for the simulator's roadmap, not features it implement
 - [Pix regulation portal](https://www.bcb.gov.br/estabilidadefinanceira/pix)
 - Related open-source: [open-pix-br/open-pix](https://github.com/open-pix-br/open-pix) (homologation toolkit)
 
-> The frozen `bacen/pix-dict-api` repo is at version 1.8.0 and references API-DICT-2.0.1; whether a DICT spec newer than 2.0.x exists is **unconfirmed**. The authoritative source is always the spec page on bcb.gov.br.
+> The frozen `bacen/pix-dict-api` repo is at version 1.8.0 and references API-DICT-2.0.1 — both superseded. The current DICT API version is **2.12.0** (released 2026-06-29, per BCB's changelog). The authoritative source is always the changelog page on bcb.gov.br.
+
+**Fontes:** every factual claim in this document is backed by a source recorded in [docs/references.md](./references.md) — see that file for the full list, grouped by topic, with version/date and official-vs-secondary status per source.
 
 Next: [architecture](./02-architecture.md).

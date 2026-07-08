@@ -42,3 +42,7 @@ If the concept you need isn't in the glossary yet, that's a signal — either yo
 If your output contradicts an existing ADR, surface it explicitly rather than silently overriding:
 
 > _Contradicts ADR-0007 (event-sourced orders) — but worth reopening because…_
+
+## Sourcing policy
+
+This repo simulates real BACEN/Pix infrastructure, so its domain docs (`docs/01-bacen-context.md`, `CONTEXT.md` glossaries, etc.) must stay factually accurate to official specs. Any BACEN/Pix/DICT/SPI factual claim you add or edit needs a citation, preferably from bcb.gov.br or another official Brazilian government source — don't assume or invent regulatory facts. Add the source to `docs/references.md` (grouped by topic, noting the claim it backs and version/date), marking it clearly if it's a non-official secondary source.
